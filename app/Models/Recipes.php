@@ -23,6 +23,7 @@ class Recipes extends Model
         'rating',
         'instructions',
         'makes_amount',
+        'link',
         'image',
     ];
 

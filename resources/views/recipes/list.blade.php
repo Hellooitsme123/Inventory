@@ -29,7 +29,8 @@
                         <th>Prep Time</th>
                         <th>Cook Time</th>
                         <th>Makes Amount</th>
-                        <th>Ingredients Available</th>
+                        <th>Available</th>
+                        <th>Link</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -41,7 +42,8 @@
                         <th>Prep Time</th>
                         <th>Cook Time</th>
                         <th>Makes Amount</th>
-                        <th>Ingredients Available</th>
+                        <th>Available</th>
+                        <th>Link</th>
                         <th>Actions</th>
                     </tr>
                 </tfoot>
@@ -55,6 +57,7 @@
                         <td>{{ $recipe->cook_time }}</td>
                         <td>{{ $recipe->makes_amount }}</td>
                         <td>{{ $recipe->available ? 'Yes' : 'No' }}</td>
+                        <td><a href="{{ $recipe->link }}" target="_blank">Recipe</a></td>
                         <td>
                             <a href="{{ route('recipes.edit', ['id' => $recipe->id]) }}" class="btn btn-primary btn-sm btn-circle">
                                 <i class="fas fa-pen"></i>

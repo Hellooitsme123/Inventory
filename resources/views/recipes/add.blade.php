@@ -82,6 +82,17 @@
                     placeholder="5 pieces.." />
 
             </div>
+
+            <div class="form-group">
+                <label for="link">Link</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="link"
+                    placeholder="https://inventory.techprojectzone.com" />
+
+            </div>
+
             <div id="ingredients">
                 <!--<div class="ingredient-row form-group">
                     <label for="ingredient">Ingredient:</label>

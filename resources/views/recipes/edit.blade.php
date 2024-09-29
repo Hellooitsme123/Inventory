@@ -81,6 +81,17 @@
                     placeholder="5 pieces.." />
 
             </div>
+
+            <div class="form-group">
+                <label for="link">Link</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="link"
+                    value="{{ $recipe->link }}"
+                    />
+
+            </div>
             <div id="ingredients">
                 <div id="ingredientCount" data-count="{{ count($recipe->ingredients) }}"></div>
                 @foreach($recipe->ingredients as $index => $ingredient)
