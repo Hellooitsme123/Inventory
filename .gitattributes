@@ -5,6 +5,8 @@
 *.html diff=html
 *.md diff=markdown
 *.php diff=php
+.env merge=ours
+.htaccess merge=ours
 
 /.github export-ignore
 CHANGELOG.md export-ignore
