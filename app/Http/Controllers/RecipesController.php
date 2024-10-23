@@ -49,7 +49,14 @@ class RecipesController extends Controller
      */
     public function show($id)
     {
-        //
+        $recipe = Recipes::find($id);
+        $recipeIngredients = RecipeIngredients::where('recipe_id',$recipe->id)->pluck('food_id')->toArray();
+        $recipeIngredientsFood = [];
+        foreach ($recipeIngredients as $ingredient) {
+            array_push($recipeIngredientsFood,Food::where('id',$ingredient)->pluck('name')->toArray()[0]);
+        } 
+        $user_id = Auth::user()->id;
+        return view('recipes.show',compact('recipeIngredients','recipeIngredientsFood','user_id','recipe'));
     }
 
     /**
@@ -66,6 +73,12 @@ class RecipesController extends Controller
             array_push($recipeIngredients,Food::where('id',$recipeIngredient)->pluck('name')->toArray()[0]);
         } 
         return view('recipes.edit',compact('recipe','ingredients'));
+    }
+
+    public function autocomplete(Request $request) {
+        $query = $request->input('query');
+        $ingredients = Food::where('name','LIKE','%{$query}%')->get();
+        return response()->json($ingredients);
     }
 
     /**

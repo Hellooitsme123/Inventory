@@ -69,7 +69,7 @@
                     name="instructions"
                     rows="6"
 
-                    placeholder="Mix ingredients and let cool for 15 minutes.." ></textarea>
+                    placeholder="Mix ingredients and let cool for 15 minutes.."></textarea>
 
             </div>
             <div class="form-group">
@@ -114,7 +114,7 @@
                             <ul id="ingredient-list" style="max-height:60vh !important;overflow-y:scroll;">
                                 <!-- Example ingredients; these could come from your database -->
                                 @foreach ($ingredients as $ingredient)
-                                    <li data-ingredient="{{$ingredient->name}}" data-dismiss="modal">{{ $ingredient->name}}</li>
+                                <li data-ingredient="{{$ingredient->name}}" data-dismiss="modal">{{ $ingredient->name}}</li>
                                 @endforeach
                             </ul>
 
@@ -135,6 +135,7 @@
 <script>
     var selectedInputId = null;
     var ingredientCount = 0;
+
     function searchIngredients() {
         var input, filter, ul, li, a, i, txtValue;
         input = document.getElementById("searchInput");
@@ -164,6 +165,7 @@
         <div>
         <div class="input-group mb-1">
             <input type="text" name="ingredients[]" class="ingredient form-control form-control-sm col-3 d-inline" id="ingredient${ingredientCount}">
+            <ul id="suggestions"></ul>
             <span class="input-group-append"><button class="btn btn-primary btn-sm ingredient-select" type="button" data-toggle="modal" data-target="#ingredientModal" data-input="ingredient${ingredientCount}"><i class="fas fa-pen"></i></button></span>
         </div>
         <label for="amount">Amount:</label><br>
@@ -178,12 +180,37 @@
         newIngredientDiv.querySelector('.removeIngredient').addEventListener('click', function() {
             newIngredientDiv.remove();
         });
+        document.querySelectorAll('.ingredient').forEach(ingredient => {
+            ingredient.addEventListener('input', function() {
+                let query = this.value;
+                if (query.length > 2) {
+                    fetch(`/recipes/autocomplete?query=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let suggestions = document.getElementById('suggestions');
+                            suggestions.innerHTML = '';
+                            data.forEach(item => {
+                                let li = document.createElement('li');
+                                li.textContent = item.name; // assuming each item has a 'name' field
+                                li.addEventListener('click', function() {
+                                    document.getElementById('ingredient').value = item.name;
+                                    suggestions.innerHTML = ''; // clear suggestions after selection
+                                });
+                                suggestions.appendChild(li);
+                            });
+                        });
+                } else {
+                    document.getElementById('suggestions').innerHTML = '';
+                }
+            });
+        })
         document.querySelectorAll('.ingredient-select').forEach(button => {
             button.addEventListener('click', function() {
                 selectedInputId = this.getAttribute('data-input'); // Get the input ID to fill
             });
         });
     });
+
 
     document.querySelectorAll('#ingredient-list li').forEach(item => {
         item.addEventListener('click', function() {
