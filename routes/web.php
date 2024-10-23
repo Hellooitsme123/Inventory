@@ -64,6 +64,8 @@ Route::group(['middleware'=>'check.login'],function() {
         Route::get('edit/{id}', [RecipesController::class, 'edit'])->name('edit');
         Route::post('edit/{id}', [RecipesController::class, 'update'])->name('update');
         Route::get('delete/{id}', [RecipesController::class, 'destroy'])->name('delete');
+        Route::get('show/{id}', [RecipesController::class, 'show'])->name('show');
         Route::get('search/{search}',[RecipesController::class, 'search'])->name('search');
+        Route::get('autocomplete',[RecipesController::class, 'autocomplete'])->name('autocomplete');
     });
 });

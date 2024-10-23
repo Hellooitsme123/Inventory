@@ -4,7 +4,7 @@
 
 @section('content')
 
-<h1 class="h3 mb-2 text-gray-800">food List</h1>
+<h1 class="h3 mb-2 text-gray-800">Recipes List</h1>
 @if(Session::has('success'))
 <div class="alert alert-success alert-dismissible mt-4">
     <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -61,6 +61,9 @@
                         <td>
                             <a href="{{ route('recipes.edit', ['id' => $recipe->id]) }}" class="btn btn-primary btn-sm btn-circle">
                                 <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{{ route('recipes.show', ['id' => $recipe->id]) }}" class="btn btn-info btn-sm btn-circle">
+                                <i class="fas fa-eye"></i>
                             </a>
                             <a href="{{ route('recipes.delete', ['id' => $recipe->id]) }}" class="btn btn-danger btn-sm btn-circle">
                                 <i class="fas fa-trash" onclick="return confirm('Do you want to delete this $food?')"></i>

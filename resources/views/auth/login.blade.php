@@ -32,6 +32,9 @@
                             <div class="form-group col-12">
                                 <input type="password" name="password" class="form-control form-control-user fh5co_contact_text_box" id="password" placeholder="Password" required/>
                             </div>
+                            <div class="col-12 py-3">
+                                <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
+                            </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block">Sign In</button>
                         </form>
                     </div>

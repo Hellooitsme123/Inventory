@@ -9,3 +9,6 @@
 
 
 <link href="{{ asset('admin/css/colors.css') }}" rel="stylesheet">
+<script async src="https://www.google.com/recaptcha/api.js"></script>
+
+

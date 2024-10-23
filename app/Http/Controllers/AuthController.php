@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
+use Symfony\Component\HttpFoundation\IpUtils;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -33,12 +35,25 @@ class AuthController extends Controller
         }
     }
     public function handleLogin(Request $request) {
-        $result = Auth::attempt(['email' => $request->email, 'password' => $request->password],true);
-        if ($result) {
-            return redirect()->route('dashboard');
-        } else {
-            return redirect()->back()->with('error','Email/Password not correct!');
+        if (!$request->input('g-recaptcha-response')) {
+            return redirect()->back()->with('error','You are a robot.');
         }
+        $res = Http::post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => IpUtils::anonymize($request->ip())
+        ]);
+        if ($res->successful()) {
+            $result = Auth::attempt(['email' => $request->email, 'password' => $request->password],true);
+            if ($result) {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect()->back()->with('error','Email/Password not correct!');
+            }
+        } else {
+            return redirect()->back()->with('error','ReCAPTCHA is invalid!');
+        }
+        
     }
     public function logout(Request $request) {
         Auth::logout();
